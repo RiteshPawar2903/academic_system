@@ -64,126 +64,289 @@ def inject_css():
         """
 <style>
 /* ── Fonts ───────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-/* ── Design tokens ───────────────────────────────────────────── */
+/* ── Design Tokens (Modern Light Slate & Indigo) ────────────────── */
 :root {
-    --bg:        #0D0F14;
-    --surface:   #13161E;
-    --surface2:  #1B1F2A;
-    --border:    #252935;
-    --accent:    #C8F135;
-    --accent2:   #5DFFCB;
-    --text:      #E8EAF0;
-    --text-muted:#7A8098;
-    --danger:    #FF5C5C;
-    --success:   #5DFFCB;
-    --radius:    12px;
-    --radius-lg: 20px;
+    /* Backgrounds */
+    --bg-color:      #FFFFFF;
+    --surface:       #F8FAFC;
+    --surface2:      #F1F5F9;
+    --surface-hover: #F8FAFC;
+    
+    /* Borders & Dividers */
+    --border:        #E2E8F0;
+    --border-focus:  #CBD5E1;
+    
+    /* Colors */
+    --primary:       #4F46E5;
+    --primary-light: #818CF8;
+    --primary-glow:  rgba(79, 70, 229, 0.15);
+    
+    --text-main:     #334155;
+    --text-muted:    #64748B;
+    
+    /* Status Colors */
+    --success:       #10B981;
+    --danger:        #EF4444;
+    --warning:       #F59E0B;
+    
+    /* Spacing & Radius */
+    --radius:        12px;
+    --radius-lg:     16px;
+    --radius-pill:   50px;
 }
 
-/* ── Reset Streamlit chrome ───────────────────────────────────── */
-#MainMenu, footer, header { visibility: hidden !important; }
+/* ── Reset Streamlit Chrome ───────────────────────────────────── */
+/* Only hide specific elements, keep header for logo */
+#MainMenu { visibility: hidden !important; }
+footer { visibility: hidden !important; }
 .stDeployButton { display: none !important; }
 .block-container {
-    padding: 0 !important;
+    padding: 2rem 2rem 2rem 2rem !important;
     max-width: 100% !important;
+    background-color: var(--bg-color) !important;
 }
 section[data-testid="stSidebar"] { display: none !important; }
 
 /* ── Base ────────────────────────────────────────────────────── */
-html, body, [class*="css"] {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
+html, body, [data-testid="stApp"], [data-testid="stHeader"] {
+    font-family: 'Outfit', sans-serif !important;
+    background-color: var(--bg-color) !important;
+    color: var(--text-main) !important;
+}
+
+[data-testid="stApp"] {
+    background-image: none !important;
+}
+
+/* ── Header & Logo ────────────────────────────────────────────── */
+[data-testid="stHeader"] {
+    background: linear-gradient(135deg, var(--surface) 0%, #FFFFFF 100%) !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding: 1rem 2rem !important;
+}
+
+[data-testid="stHeader"] img {
+    max-height: 40px !important;
+    object-fit: contain !important;
+}
+
+/* ── Popover dropdowns (Selectbox options) ────────────────────── */
+div[data-baseweb="popover"] > div {
+    background-color: #FFFFFF !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05) !important;
+    padding: 8px !important;
+}
+div[data-baseweb="popover"] li[role="option"] {
+    background-color: transparent !important;
+    color: var(--text-main) !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 500 !important;
+    padding: 10px 12px !important;
+    border-radius: 6px !important;
+}
+div[data-baseweb="popover"] li[role="option"]:hover {
+    background-color: var(--surface) !important;
+}
+div[data-baseweb="popover"] li[aria-selected="true"] {
+    background-color: var(--primary-glow) !important;
+    color: var(--primary) !important;
 }
 
 /* ── Scrollbar ───────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
 /* ── Streamlit element overrides ─────────────────────────────── */
 .stTextInput > label,
 .stSelectbox > label,
-.stFileUploader > label { color: var(--text-muted) !important; font-size: 0.8rem !important; font-weight: 500 !important; letter-spacing: 0.05em; text-transform: uppercase; }
-
-.stTextInput > div > div > input,
-.stTextInput > div > div > input:focus {
-    background: var(--surface2) !important;
-    border: 1.5px solid var(--border) !important;
-    color: var(--text) !important;
-    border-radius: 8px !important;
-    padding: 0.6rem 0.9rem !important;
-    font-family: 'DM Sans', sans-serif !important;
+.stFileUploader > label { 
+    color: var(--text-main) !important; 
+    font-size: 0.85rem !important; 
+    font-weight: 600 !important; 
+    letter-spacing: 0.03em; 
+    text-transform: uppercase;
+    font-family: 'Space Grotesk', sans-serif !important;
+    margin-bottom: 0.5rem !important;
+    opacity: 0.8;
 }
-.stTextInput > div > div > input:focus { border-color: var(--accent) !important; }
 
-.stButton > button {
-    background: var(--accent) !important;
-    color: #0D0F14 !important;
-    border: none !important;
-    border-radius: 8px !important;
-    font-weight: 700 !important;
-    font-family: 'DM Sans', sans-serif !important;
-    padding: 0.55rem 1.4rem !important;
+/* Inputs */
+.stTextInput > div > div > input,
+.stSelectbox > div > div {
+    background: #FFFFFF !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text-main) !important;
+    border-radius: var(--radius) !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 500 !important;
+    min-height: 48px !important;
+    padding: 0 1rem !important;
     transition: all 0.2s ease !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Fix for invisible text in Selectbox */
+.stSelectbox [data-baseweb="select"] * {
+    color: var(--text-main) !important;
+}
+
+.stTextInput > div > div > input:focus,
+.stSelectbox > div > div:focus-within { 
+    border-color: var(--primary) !important; 
+    box-shadow: 0 0 0 4px var(--primary-glow) !important;
+    outline: none !important;
+}
+
+/* Buttons */
+.stButton > button {
+    background: var(--primary) !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: var(--radius) !important;
+    font-weight: 600 !important;
+    font-family: 'Space Grotesk', sans-serif !important;
+    font-size: 0.95rem !important;
+    padding: 0.6rem 1.5rem !important;
+    transition: all 0.2s ease !important;
+    text-transform: none;
     letter-spacing: 0.02em;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2) !important;
 }
 .stButton > button:hover {
-    background: #deff4a !important;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 24px rgba(200, 241, 53, 0.25) !important;
+    background: #4338CA !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3) !important;
 }
+.stButton > button:active {
+    transform: translateY(0px) !important;
+    box-shadow: none !important;
+}
+
 .stButton > button[kind="secondary"] {
-    background: var(--surface2) !important;
-    color: var(--text) !important;
-    border: 1.5px solid var(--border) !important;
+    background: #FFFFFF !important;
+    color: var(--text-main) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
 }
 .stButton > button[kind="secondary"]:hover {
-    background: var(--border) !important;
-    box-shadow: none !important;
+    background: var(--surface) !important;
+    border-color: var(--text-muted) !important;
 }
 
 /* File uploader */
 .stFileUploader > div {
-    background: var(--surface2) !important;
+    background: var(--surface) !important;
     border: 2px dashed var(--border) !important;
-    border-radius: var(--radius) !important;
+    border-radius: var(--radius-lg) !important;
     color: var(--text-muted) !important;
+    transition: all 0.2s ease !important;
 }
-.stFileUploader > div:hover { border-color: var(--accent) !important; }
+.stFileUploader > div:hover { 
+    border-color: var(--primary) !important; 
+    background: rgba(79, 70, 229, 0.03) !important;
+    color: var(--primary) !important;
+}
 
 /* Dataframe */
-.stDataFrame { border: 1.5px solid var(--border) !important; border-radius: var(--radius) !important; }
-.stDataFrame table { background: var(--surface) !important; }
-.stDataFrame th { background: var(--surface2) !important; color: var(--accent) !important; font-weight: 600 !important; border-bottom: 1.5px solid var(--border) !important; font-family: 'DM Mono', monospace !important; font-size: 0.75rem !important; }
-.stDataFrame td { color: var(--text) !important; border-color: var(--border) !important; font-size: 0.85rem !important; }
+.stDataFrame { 
+    border: 1px solid var(--border) !important; 
+    border-radius: var(--radius) !important; 
+    background: #FFFFFF !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02) !important;
+}
+.stDataFrame th { 
+    background: var(--surface2) !important; 
+    color: var(--text-main) !important; 
+    font-weight: 700 !important; 
+    font-family: 'Space Grotesk', sans-serif !important; 
+    font-size: 0.8rem !important; 
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.stDataFrame td { color: var(--text-main) !important; border-color: var(--border) !important; }
 
 /* Alert / info boxes */
-.stSuccess { background: rgba(93,255,203,0.08) !important; border-left: 3px solid var(--success) !important; border-radius: 0 8px 8px 0 !important; color: var(--success) !important; }
-.stError { background: rgba(255,92,92,0.08) !important; border-left: 3px solid var(--danger) !important; border-radius: 0 8px 8px 0 !important; color: var(--danger) !important; }
-.stWarning { background: rgba(255,180,0,0.08) !important; border-left: 3px solid #FFB400 !important; border-radius: 0 8px 8px 0 !important; }
-.stInfo { background: rgba(200,241,53,0.05) !important; border-left: 3px solid var(--accent) !important; border-radius: 0 8px 8px 0 !important; }
+[data-testid="stAlert"] {
+    border-radius: var(--radius) !important;
+    border: 1px solid var(--border) !important;
+    background-color: #FFFFFF !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02) !important;
+}
+.stSuccess { border-left: 4px solid var(--success) !important; color: var(--text-main) !important; background: rgba(16, 185, 129, 0.05) !important; }
+.stError { border-left: 4px solid var(--danger) !important; color: var(--text-main) !important; background: rgba(239, 68, 68, 0.05) !important; }
+.stWarning { border-left: 4px solid var(--warning) !important; background: rgba(245, 158, 11, 0.05) !important; }
+.stInfo { border-left: 4px solid var(--primary) !important; background: rgba(79, 70, 229, 0.05) !important; }
 
 /* Tabs */
-.stTabs [data-baseweb="tab-list"] { background: var(--surface) !important; border-radius: var(--radius) !important; padding: 4px !important; gap: 2px !important; }
-.stTabs [data-baseweb="tab"] { background: transparent !important; color: var(--text-muted) !important; border-radius: 8px !important; font-weight: 500 !important; }
-.stTabs [aria-selected="true"] { background: var(--surface2) !important; color: var(--accent) !important; }
-.stTabs [data-baseweb="tab-panel"] { background: transparent !important; padding: 0 !important; }
+.stTabs [data-baseweb="tab-list"] { 
+    background: var(--surface) !important; 
+    border-radius: var(--radius) !important; 
+    padding: 4px !important; 
+    gap: 4px !important;
+    border: 1px solid var(--border) !important;
+}
+.stTabs [data-baseweb="tab"] { 
+    background: transparent !important; 
+    color: var(--text-muted) !important; 
+    border-radius: 8px !important; 
+    font-weight: 600 !important; 
+    font-family: 'Space Grotesk', sans-serif !important; 
+    transition: all 0.2s ease !important; 
+}
+.stTabs [data-baseweb="tab"]:hover {
+    color: var(--text-main) !important;
+    background: rgba(0,0,0,0.03) !important;
+}
+.stTabs [aria-selected="true"] { 
+    background: #FFFFFF !important;
+    color: var(--primary) !important; 
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05) !important; 
+}
+.stTabs [data-baseweb="tab-panel"] { background: transparent !important; padding: 1.5rem 0 0 0 !important; }
 
 /* Spinner */
-.stSpinner > div { border-top-color: var(--accent) !important; }
+.stSpinner > div { border-top-color: var(--primary) !important; }
 
 /* Divider */
-hr { border-color: var(--border) !important; margin: 1.5rem 0 !important; }
+hr { border-color: var(--border) !important; margin: 2rem 0 !important; opacity: 1; }
 
-/* Selectbox */
-.stSelectbox > div > div {
-    background: var(--surface2) !important;
-    border: 1.5px solid var(--border) !important;
-    border-radius: 8px !important;
-    color: var(--text) !important;
+/* Magical Text Gradient */
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary) 0%, #818CF8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    font-weight: 800;
+}
+
+/* ── Emoji & Icon Fixes ───────────────────────────────────────── */
+/* Ensure emojis display correctly */
+[data-testid="stMarkdown"] *,
+[data-testid="stText"] *,
+[data-testid="stMetric"] * {
+    font-family: 'Outfit', sans-serif !important;
+}
+
+/* Icon elements */
+[data-testid="stIcon"] {
+    color: var(--primary) !important;
+}
+
+/* Ensure all text elements are visible */
+[data-testid="stMarkdown"] {
+    color: var(--text-main) !important;
+}
+
+/* Fix for any hidden elements */
+* {
+    visibility: visible !important;
 }
 </style>
         """,
@@ -199,32 +362,32 @@ def top_nav(title: str = "AcademiQ", show_logout: bool = True):
     st.markdown(
         f"""
 <div style="
-    background: {'{'}var(--surface){'}'};
-    border-bottom: 1.5px solid var(--border);
+    background: #FFFFFF;
+    border-bottom: 1px solid var(--border);
     padding: 0 2.5rem;
-    height: 62px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
     z-index: 999;
-    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 ">
-    <div style="display:flex;align-items:center;gap:10px;">
+    <div style="display:flex;align-items:center;gap:12px;">
         <div style="
             width:32px;height:32px;
-            background:var(--accent);
-            border-radius:8px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            border-radius: 8px;
             display:flex;align-items:center;justify-content:center;
-            font-size:16px;font-weight:900;color:#0D0F14;
+            font-size:16px;font-weight:900;color:#FFF;
         ">A</div>
-        <span style="font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--text);letter-spacing:-0.02em;">
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:700;letter-spacing:-0.02em;" class="text-gradient">
             {title}
         </span>
     </div>
-    <div style="display:flex;align-items:center;gap:1rem;">
-        {'<span style="font-size:0.82rem;color:var(--text-muted);">Signed in as&nbsp;<strong style=color:var(--text)>' + (st.session_state.username or "") + '</strong></span>' if show_logout and st.session_state.username else ''}
+    <div style="display:flex;align-items:center;gap:1.5rem;">
+        {'<span style="font-size:0.85rem;font-weight:500;color:var(--text-muted);background:var(--surface);padding:0.4rem 0.8rem;border-radius:20px;border:1px solid var(--border);">🚀 &nbsp;&nbsp;' + (st.session_state.username or "") + '</span>' if show_logout and st.session_state.username else ''}
     </div>
 </div>
         """,
@@ -232,14 +395,15 @@ def top_nav(title: str = "AcademiQ", show_logout: bool = True):
     )
 
 
-def card(content_html: str, padding: str = "1.4rem 1.6rem", extra_style: str = ""):
+def card(content_html: str, padding: str = "1.25rem 1.5rem", extra_style: str = ""):
     st.markdown(
         f"""
 <div style="
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-lg);
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     padding: {padding};
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     {extra_style}
 ">
     {content_html}
@@ -249,12 +413,12 @@ def card(content_html: str, padding: str = "1.4rem 1.6rem", extra_style: str = "
     )
 
 
-def badge(text: str, color: str = "var(--accent)", bg: str = "rgba(200,241,53,0.12)"):
+def badge(text: str, color: str = "var(--accent)", bg: str = "rgba(59, 130, 246, 0.1)"):
     return f"""<span style="
         background:{bg};color:{color};
         border-radius:20px;padding:2px 10px;
-        font-size:0.72rem;font-weight:600;letter-spacing:0.04em;
-        font-family:'DM Mono',monospace;
+        font-size:0.75rem;font-weight:600;
+        font-family:'Outfit',sans-serif;
     ">{text}</span>"""
 
 
@@ -281,7 +445,6 @@ def fmt_date(dt_str: str) -> str:
 def page_auth():
     inject_css()
 
-    # Hero section
     st.markdown(
         """
 <div style="
@@ -290,36 +453,46 @@ def page_auth():
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    padding: 3rem 1rem;
-    background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(200,241,53,0.10) 0%, transparent 70%),
-                var(--bg);
+    padding: 2rem 1rem;
+    background-color: #F9FAFB;
 ">
-    <div style="text-align:center;max-width:480px;width:100%;">
+    <div style="
+        text-align:center;max-width:440px;width:100%;
+        background: #FFFFFF;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 2.5rem;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    ">
         <div style="
             width:56px;height:56px;
-            background:var(--accent);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
             border-radius:14px;
             display:inline-flex;align-items:center;justify-content:center;
-            font-size:26px;font-weight:900;color:#0D0F14;
-            margin-bottom:1.4rem;
-            box-shadow:0 0 40px rgba(200,241,53,0.35);
+            font-size:28px;font-weight:900;color:#FFF;
+            margin-bottom:1.5rem;
         ">A</div>
         <h1 style="
-            font-family:'DM Serif Display',serif;
-            font-size:2.6rem;
-            color:var(--text);
+            font-family:'Space Grotesk',sans-serif;
+            font-weight: 800;
+            font-size:2.5rem;
             margin:0 0 0.5rem;
-            line-height:1.15;
+            line-height:1.1;
             letter-spacing:-0.03em;
-        ">AcademiQ</h1>
-        <p style="color:var(--text-muted);font-size:1rem;margin-bottom:2.5rem;">
-            Academic Result Analysis System
+        " class="text-gradient">AcademiQ</h1>
+        <p style="
+            color:var(--text-muted);
+            font-size:1rem;
+            font-weight: 500;
+            margin-bottom:2rem;
+        ">
+            Result Analysis System
         </p>
         """,
         unsafe_allow_html=True,
     )
 
-    col1, col2, col3 = st.columns([1, 2, 1])
+    col1, col2, col3 = st.columns([0.1, 2, 0.1])
     with col2:
         tab_login, tab_register = st.tabs(["🔑  Sign In", "✨  Create Account"])
 
@@ -390,44 +563,44 @@ def page_dashboard():
     inject_css()
     top_nav()
 
-    st.markdown("<div style='padding:2rem 2.5rem 0;'>", unsafe_allow_html=True)
+    st.markdown("<div style='padding:2.5rem 3rem 0;'>", unsafe_allow_html=True)
 
     # ── Header row
-    col_title, col_logout = st.columns([8, 1])
+    col_title, col_logout = st.columns([8, 1.5])
     with col_title:
         st.markdown(
             """
-<div style="margin-bottom:0.3rem;">
-    <h2 style="font-family:'DM Serif Display',serif;font-size:1.9rem;margin:0;
-               color:var(--text);letter-spacing:-0.02em;">My Documents</h2>
-    <p style="color:var(--text-muted);margin:0.2rem 0 0;font-size:0.9rem;">
-        Upload academic result PDFs and explore extracted data.
+<div style="margin-bottom:1.5rem;">
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;margin:0 0 0.5rem;
+               letter-spacing:-0.02em;" class="text-gradient">My Documents</h2>
+    <p style="color:var(--text-muted);margin:0;font-size:1.1rem;font-weight:500;">
+        Upload PDFs. Extract tables automatically.
     </p>
 </div>
             """,
             unsafe_allow_html=True,
         )
     with col_logout:
-        st.markdown("<div style='padding-top:0.5rem;'>", unsafe_allow_html=True)
-        if st.button("Sign Out", key="logout_btn", use_container_width=True):
+        st.markdown("<div style='padding-top:0.8rem;'>", unsafe_allow_html=True)
+        if st.button("Sign Out", key="logout_btn", use_container_width=True, type="secondary"):
             for k in ["authenticated", "user_id", "username", "page", "current_upload_id"]:
                 st.session_state[k] = (False if k == "authenticated" else None if k != "page" else "auth")
             st.rerun()
         st.markdown("</div>", unsafe_allow_html=True)
 
-    st.markdown("<div style='height:1.5rem'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:2rem'></div>", unsafe_allow_html=True)
 
     # ── Upload section
     st.markdown(
         """
-<div style="background:var(--surface);border:1.5px solid var(--border);
-     border-radius:var(--radius-lg);padding:1.6rem 1.8rem;margin-bottom:2rem;">
-    <p style="margin:0 0 0.8rem;font-weight:600;font-size:1rem;color:var(--text);">
-        📤  Upload a New PDF
+<div style="background:#FFFFFF; border:1px solid #E5E7EB;
+     border-radius:var(--radius-lg);padding:1.8rem 2.2rem;margin-bottom:2.5rem;
+     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+    <p style="margin:0 0 0.6rem;font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:1.2rem;color:var(--accent);">
+        ⚡  Initialize Upload
     </p>
-    <p style="margin:0;font-size:0.82rem;color:var(--text-muted);">
-        Upload a PDF file containing academic result tables.
-        Tables are extracted automatically and stored in the database.
+    <p style="margin:0;font-size:1rem;color:var(--text-muted);">
+        Drop your academic result PDF here to start intelligent extraction.
     </p>
 </div>
         """,
@@ -453,7 +626,7 @@ def page_dashboard():
         st.markdown(
             """
 <div style="text-align:center;padding:4rem 2rem;border:1.5px dashed var(--border);
-     border-radius:var(--radius-lg);background:var(--surface);">
+     border-radius:var(--radius-lg);background:#F9FAFB;">
     <div style="font-size:3rem;margin-bottom:1rem;">📂</div>
     <p style="color:var(--text-muted);font-size:0.95rem;margin:0;">
         No documents yet. Upload your first PDF above!
@@ -464,7 +637,7 @@ def page_dashboard():
         )
     else:
         st.markdown(
-            f"""<p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:1rem;">
+            f"""<p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem;font-weight:500;">
             Showing {len(uploads)} document{'s' if len(uploads) != 1 else ''}
             </p>""",
             unsafe_allow_html=True,
@@ -473,18 +646,18 @@ def page_dashboard():
         # Column header row
         st.markdown(
             """
-<div style="display:grid;grid-template-columns:3fr 1fr 1fr 1fr 1fr;
-     gap:0.8rem;padding:0.5rem 1.2rem;margin-bottom:0.4rem;">
-    <span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;
-           color:var(--text-muted);font-weight:600;">File Name</span>
-    <span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;
-           color:var(--text-muted);font-weight:600;">Pages</span>
-    <span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;
-           color:var(--text-muted);font-weight:600;">Tables</span>
-    <span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;
-           color:var(--text-muted);font-weight:600;">Size</span>
-    <span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;
-           color:var(--text-muted);font-weight:600;">Uploaded</span>
+<div style="display:grid;grid-template-columns:3fr 1fr 1fr 1fr 1.5fr;
+     gap:0.8rem;padding:0.5rem 1.2rem;margin-bottom:0.4rem;border-bottom:1px solid var(--border);">
+    <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;
+           color:var(--text-muted);font-weight:700;">File Name</span>
+    <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;
+           color:var(--text-muted);font-weight:700;text-align:center;">Pages</span>
+    <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;
+           color:var(--text-muted);font-weight:700;text-align:center;">Tables</span>
+    <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;
+           color:var(--text-muted);font-weight:700;text-align:center;">Size</span>
+    <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;
+           color:var(--text-muted);font-weight:700;">Uploaded</span>
 </div>
             """,
             unsafe_allow_html=True,
@@ -539,11 +712,10 @@ def _upload_row(upload: dict):
     with col_name:
         st.markdown(
             f"""
-<div style="display:flex;align-items:center;gap:10px;
-     padding:0.75rem 1rem;background:var(--surface);
-     border:1.5px solid var(--border);border-radius:10px;height:100%;">
-    <span style="font-size:1.2rem;">📄</span>
-    <span style="font-size:0.88rem;font-weight:500;color:var(--text);
+<div style="display:flex;align-items:center;gap:12px;
+     padding:0.6rem 0.5rem;height:100%;transition: all 0.2s ease;">
+    <span style="font-size:1.1rem;">📄</span>
+    <span style="font-size:0.95rem;font-weight:600;color:var(--text);font-family:'Outfit',sans-serif;
            white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;"
           title="{upload['filename']}">{upload['filename']}</span>
 </div>
@@ -553,10 +725,9 @@ def _upload_row(upload: dict):
 
     with col_pages:
         st.markdown(
-            f"""<div style="padding:0.75rem 1rem;background:var(--surface);
-            border:1.5px solid var(--border);border-radius:10px;text-align:center;height:100%;
+            f"""<div style="padding:0.6rem 0.5rem;text-align:center;height:100%;
             display:flex;align-items:center;justify-content:center;">
-            <span style="font-family:'DM Mono',monospace;font-size:0.9rem;color:var(--text);">
+            <span style="font-family:'Outfit',sans-serif;font-weight:600;font-size:0.95rem;color:var(--text);">
             {upload.get('page_count', '—')}</span></div>""",
             unsafe_allow_html=True,
         )
@@ -565,30 +736,27 @@ def _upload_row(upload: dict):
         count = upload.get("table_count", 0)
         color = "var(--accent)" if count > 0 else "var(--text-muted)"
         st.markdown(
-            f"""<div style="padding:0.75rem 1rem;background:var(--surface);
-            border:1.5px solid var(--border);border-radius:10px;text-align:center;height:100%;
+            f"""<div style="padding:0.6rem 0.5rem;text-align:center;height:100%;
             display:flex;align-items:center;justify-content:center;">
-            <span style="font-family:'DM Mono',monospace;font-size:0.9rem;color:{color};">
+            <span style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.95rem;color:{color};">
             {count}</span></div>""",
             unsafe_allow_html=True,
         )
 
     with col_size:
         st.markdown(
-            f"""<div style="padding:0.75rem 1rem;background:var(--surface);
-            border:1.5px solid var(--border);border-radius:10px;text-align:center;height:100%;
+            f"""<div style="padding:0.6rem 0.5rem;text-align:center;height:100%;
             display:flex;align-items:center;justify-content:center;">
-            <span style="font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--text-muted);">
+            <span style="font-family:'Outfit',sans-serif;font-weight:500;font-size:0.85rem;color:var(--text-muted);">
             {fmt_size(upload['file_size'])}</span></div>""",
             unsafe_allow_html=True,
         )
 
     with col_date:
         st.markdown(
-            f"""<div style="padding:0.75rem 1rem;background:var(--surface);
-            border:1.5px solid var(--border);border-radius:10px;height:100%;
+            f"""<div style="padding:0.6rem 0.5rem;height:100%;
             display:flex;align-items:center;justify-content:center;">
-            <span style="font-size:0.78rem;color:var(--text-muted);">
+            <span style="font-size:0.8rem;font-weight:500;color:var(--text-muted);">
             {fmt_date(upload['upload_date'])}</span></div>""",
             unsafe_allow_html=True,
         )
@@ -601,9 +769,11 @@ def _upload_row(upload: dict):
                 st.session_state.page = "file_view"
                 st.rerun()
         with c2:
-            if st.button("🗑", key=f"del_{uid}", use_container_width=True):
+            if st.button("🗑", key=f"del_{uid}", use_container_width=True, type="secondary"):
                 delete_upload(uid, st.session_state.user_id)
                 st.rerun()
+
+    st.markdown("<hr style='margin:0 !important;'>", unsafe_allow_html=True)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -626,23 +796,25 @@ def page_file_view():
             st.rerun()
         return
 
-    st.markdown("<div style='padding:1.5rem 2.5rem 0;'>", unsafe_allow_html=True)
+    st.markdown("<div style='padding:2.5rem 3rem 0;'>", unsafe_allow_html=True)
 
     # Back button + title
     col_back, col_info = st.columns([1, 7])
     with col_back:
-        if st.button("← Dashboard", key="back_btn"):
+        st.markdown("<div style='padding-top:0.5rem;'>", unsafe_allow_html=True)
+        if st.button("← Back", key="back_btn", type="secondary"):
             st.session_state.page = "dashboard"
             st.session_state.current_upload_id = None
             st.rerun()
+        st.markdown("</div>", unsafe_allow_html=True)
 
     with col_info:
         st.markdown(
             f"""
-<div>
-    <h2 style="font-family:'DM Serif Display',serif;font-size:1.7rem;margin:0;
-               color:var(--text);letter-spacing:-0.02em;">{metadata['filename']}</h2>
-    <p style="color:var(--text-muted);font-size:0.82rem;margin:0.3rem 0 0;">
+<div style="margin-bottom: 2rem;">
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;margin:0 0 0.4rem;
+               letter-spacing:-0.02em;" class="text-gradient">{metadata['filename']}</h2>
+    <p style="color:var(--text-muted);font-size:1rem;font-weight:500;margin:0.5rem 0 0;">
         {metadata.get('page_count','—')} pages &nbsp;·&nbsp;
         {metadata.get('table_count','—')} tables &nbsp;·&nbsp;
         {fmt_size(metadata['file_size'])} &nbsp;·&nbsp;
@@ -653,7 +825,7 @@ def page_file_view():
             unsafe_allow_html=True,
         )
 
-    st.markdown("<div style='height:1.2rem'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:1.5rem'></div>", unsafe_allow_html=True)
 
     # ── Two-column layout: left = tables, right = PDF preview
     left_col, right_col = st.columns([5, 4], gap="large")
@@ -673,12 +845,13 @@ def _render_tables_section(upload_id: int, user_id: int):
 
     st.markdown(
         """
-<div style="background:var(--surface);border:1.5px solid var(--border);
-     border-radius:var(--radius-lg);padding:1.4rem 1.6rem;margin-bottom:1rem;">
-    <p style="font-family:'DM Serif Display',serif;font-size:1.2rem;margin:0 0 0.3rem;color:var(--text);">
+<div style="background:#FFFFFF; border:1px solid #E5E7EB;
+     border-radius:var(--radius);padding:1.8rem 2.2rem;margin-bottom:2rem;
+     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+    <p style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;margin:0 0 0.6rem;color:var(--accent);">
         📊  Extracted Tables
     </p>
-    <p style="color:var(--text-muted);font-size:0.82rem;margin:0;">
+    <p style="color:var(--text-muted);font-size:1rem;font-weight:500;margin:0;">
         Search and filter the extracted academic data below.
     </p>
 </div>
@@ -690,11 +863,10 @@ def _render_tables_section(upload_id: int, user_id: int):
         st.markdown(
             """
 <div style="text-align:center;padding:3rem;border:1.5px dashed var(--border);
-     border-radius:var(--radius-lg);background:var(--surface);">
+     border-radius:var(--radius);background:#F9FAFB;">
     <div style="font-size:2.5rem;margin-bottom:0.8rem;">🔍</div>
     <p style="color:var(--text-muted);font-size:0.9rem;margin:0;">
-        No tables detected in this PDF.<br>
-        The file may use image-based or scanned content.
+        No tables detected in this PDF.
     </p>
 </div>
             """,
@@ -705,7 +877,7 @@ def _render_tables_section(upload_id: int, user_id: int):
     # Table selector if more than one table
     if len(tables) > 1:
         table_options = [
-            f"Table {t['table_index'] + 1}  —  Page {t['page_number']}  ({t['row_count']} rows × {t['col_count']} cols)"
+            f"Table {t['table_index'] + 1}  —  Page {t['page_number']}  ({t['row_count']} rows)"
             for t in tables
         ]
         selected_label = st.selectbox(
@@ -723,15 +895,15 @@ def _render_tables_section(upload_id: int, user_id: int):
     st.markdown(
         f"""
 <div style="display:flex;gap:1rem;margin-bottom:0.9rem;flex-wrap:wrap;">
-    <span style="font-size:0.78rem;color:var(--text-muted);">
+    <span style="font-size:0.75rem;color:var(--text-muted);font-weight:500;">
         Page <strong style="color:var(--text)">{active_table['page_number']}</strong>
     </span>
     <span style="color:var(--border);">|</span>
-    <span style="font-size:0.78rem;color:var(--text-muted);">
+    <span style="font-size:0.75rem;color:var(--text-muted);font-weight:500;">
         <strong style="color:var(--text)">{active_table['row_count']}</strong> rows
     </span>
     <span style="color:var(--border);">|</span>
-    <span style="font-size:0.78rem;color:var(--text-muted);">
+    <span style="font-size:0.75rem;color:var(--text-muted);font-weight:500;">
         <strong style="color:var(--text)">{active_table['col_count']}</strong> columns
     </span>
 </div>
@@ -753,23 +925,25 @@ def _render_tables_section(upload_id: int, user_id: int):
         ).any(axis=1)
         filtered_df = df[mask]
         st.markdown(
-            f"<p style='font-size:0.78rem;color:var(--text-muted);margin:0.4rem 0;'>"
+            f"<p style='font-size:0.75rem;color:var(--text-muted);margin:0.4rem 0;'>"
             f"Showing {len(filtered_df)} of {len(df)} rows</p>",
             unsafe_allow_html=True,
         )
     else:
         filtered_df = df
 
-    st.dataframe(filtered_df, use_container_width=True, height=420)
+    st.dataframe(filtered_df, use_container_width=True, height=400)
 
     # Download CSV button
     csv_data = filtered_df.to_csv(index=False).encode("utf-8")
     st.download_button(
-        label="⬇  Download as CSV",
+        label="⬇  Download CSV",
         data=csv_data,
         file_name=f"table_{active_table['table_index'] + 1}.csv",
         mime="text/csv",
         key=f"dl_{active_table['table_index']}",
+        use_container_width=True,
+        type="secondary"
     )
 
 
@@ -777,13 +951,14 @@ def _render_pdf_preview(upload_id: int, user_id: int, filename: str):
     """Embed the original PDF in an iframe."""
     st.markdown(
         """
-<div style="background:var(--surface);border:1.5px solid var(--border);
-     border-radius:var(--radius-lg);padding:1.4rem 1.6rem;margin-bottom:1rem;">
-    <p style="font-family:'DM Serif Display',serif;font-size:1.2rem;margin:0 0 0.3rem;color:var(--text);">
+<div style="background:#FFFFFF; border:1px solid #E5E7EB;
+     border-radius:var(--radius);padding:1.8rem 2.2rem;margin-bottom:2rem;
+     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+    <p style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;margin:0 0 0.6rem;color:var(--accent-light);">
         📄  PDF Preview
     </p>
-    <p style="color:var(--text-muted);font-size:0.82rem;margin:0;">
-        Original document — scroll to browse pages.
+    <p style="color:var(--text-muted);font-size:1rem;font-weight:500;margin:0;">
+        Browse the original document.
     </p>
 </div>
         """,
@@ -800,22 +975,20 @@ def _render_pdf_preview(upload_id: int, user_id: int, filename: str):
     b64 = base64.b64encode(pdf_bytes).decode("utf-8")
     st.markdown(
         f"""
-<div style="border:1.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:#fff;">
+<div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#FFF;box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
     <iframe
         src="data:application/pdf;base64,{b64}"
         width="100%"
-        height="620px"
+        height="600px"
         style="border:none;display:block;"
         title="{filename}">
-        <p style="padding:1rem;font-size:0.85rem;">
-            Your browser doesn't support inline PDF viewing.
-            Please download the file instead.
-        </p>
     </iframe>
 </div>
         """,
         unsafe_allow_html=True,
     )
+
+    st.markdown("<div style='height:0.8rem'></div>", unsafe_allow_html=True)
 
     # Download original PDF
     st.download_button(
@@ -824,6 +997,8 @@ def _render_pdf_preview(upload_id: int, user_id: int, filename: str):
         file_name=filename,
         mime="application/pdf",
         key=f"dl_pdf_{upload_id}",
+        use_container_width=True,
+        type="secondary"
     )
 
 

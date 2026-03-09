@@ -112,22 +112,41 @@ def save_upload(
 ) -> int:
     """
     Store the PDF blob and all its extracted tables.
-    Returns the new upload ID.
+    If a document with the same filename exists for this user, it replaces the old one.
+    Returns the upload ID (existing or new).
     """
     conn = get_connection()
     try:
         cursor = conn.cursor()
 
-        # Insert the upload record
-        cursor.execute(
-            """INSERT INTO uploads
-               (user_id, filename, file_size, page_count, table_count, pdf_data)
-               VALUES (?, ?, ?, ?, ?, ?)""",
-            (user_id, filename, file_size, page_count, len(tables), pdf_bytes),
-        )
-        upload_id = cursor.lastrowid
+        # Check for existing upload
+        existing = cursor.execute(
+            "SELECT id FROM uploads WHERE user_id = ? AND filename = ?",
+            (user_id, filename)
+        ).fetchone()
 
-        # Insert each extracted table
+        if existing:
+            upload_id = existing["id"]
+            # Update existing upload record
+            cursor.execute(
+                """UPDATE uploads
+                   SET file_size = ?, page_count = ?, table_count = ?, pdf_data = ?, upload_date = datetime('now')
+                   WHERE id = ?""",
+                (file_size, page_count, len(tables), pdf_bytes, upload_id),
+            )
+            # Delete old extracted tables to replace them
+            cursor.execute("DELETE FROM extracted_tables WHERE upload_id = ?", (upload_id,))
+        else:
+            # Insert new upload record
+            cursor.execute(
+                """INSERT INTO uploads
+                   (user_id, filename, file_size, page_count, table_count, pdf_data)
+                   VALUES (?, ?, ?, ?, ?, ?)""",
+                (user_id, filename, file_size, page_count, len(tables), pdf_bytes),
+            )
+            upload_id = cursor.lastrowid
+
+        # Insert each extracted table (new or replaced)
         for table in tables:
             cursor.execute(
                 """INSERT INTO extracted_tables
